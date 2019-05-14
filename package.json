@@ -1,0 +1,38 @@
+{
+  "name": "nodetest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6",
+    "webpack": "^4.30.0"
+  },
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-vue": "^5.2.2",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.6.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "stylelint": "^10.0.1",
+    "stylelint-webpack-plugin": "^0.10.5",
+    "url-loader": "^1.1.2",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --inline --hot --open",
+    "clear": "rm -rf dist && mkdir dist",
+    "build": " npm run clear&& NODE_ENV=production webpack -p --progress"
+  },
+  "author": "",
+  "license": "ISC"
+}

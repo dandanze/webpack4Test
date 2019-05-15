@@ -12,15 +12,18 @@ module.exports = {
         // bigData:'./src/page/bigData/index.js',
     },
     output:{
-        path:path.join(__dirname,'./dist'),
+        path:path.join(__dirname,'./public/dist'),
         filename:'[name].bundle.[hash].js'
     },
-    // resolve:{
-    //     extensions:['.js','.vue','json','.css','.scss'],
-    //     alias:{
-    //         '@':path.join(__dirname,'./src')
-    //     }
-    // },
+    externals:{
+        echarts:'echarts'
+    },
+    resolve:{
+        extensions:['.js','.vue','json','.css','.scss'],
+        alias:{
+            '@':path.join(__dirname,'./src')
+        }
+    },
     module:{
         rules:[
             {

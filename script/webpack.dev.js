@@ -1,18 +1,16 @@
 const path = require('path');
+
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const devMiddleWare = require('webpack-dev-middleware');
 const hotMiddleWare = require('webpack-hot-middleware');
+
 const config = require('../config/index');
 const baseConfig = require('./webpack.base');
 
-
-const DefinePlugin = new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('development')
-});
-
 const devConfig = {
+    mode:'development',
     entry: {
         index: [
             'webpack-hot-middleware/client',
@@ -23,7 +21,9 @@ const devConfig = {
         path: '/',
     },
     plugins: [
-        DefinePlugin,
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(config.srcDir, './index.html')
@@ -31,16 +31,17 @@ const devConfig = {
     ]
 }
 module.exports = function (app) {
-    let webpackconfig = merge(baseConfig, devConfig); 
-    console.log(webpackconfig);
+    const webpackconfig = merge(baseConfig, devConfig); 
 
-    var compiler = webpack(webpackconfig);
+    const compiler = webpack(webpackconfig);
     
     app.use(devMiddleWare(compiler, {
-        publicPath: '/',
-        stats: {
+        stats:{
             colors: true,
-            chunks: false
+            modules: false,
+            children: false,
+            chunks: false,
+            chunkModules: false
         }
     }));
     app.use(hotMiddleWare(compiler));

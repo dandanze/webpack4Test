@@ -1,26 +1,48 @@
 const path = require('path');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const devMiddleWare = require('webpack-dev-middleware');
+const hotMiddleWare = require('webpack-hot-middleware');
 const config = require('../config/index');
 const baseConfig = require('./webpack.base');
-const { AutoWebPlugin } = require('web-webpack-plugin');
 
-debugger
-const pagesDir = path.join(config.srcDir,'./page');
-const template = path.join(config.srcDir,'./template.html');
-//自动寻找 pages 目录下的所有目录，把每一个目录看成一个单页应用
-const autoWebPlugin = new AutoWebPlugin(pagesDir,{
-    template,
-    postEntrys:[],
-    // 提取出所有页面公共的代码
-    commonsChunk: {
-        name: 'common',// 提取出公共代码 Chunk 的名称
+
+const DefinePlugin = new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('development')
+});
+
+const devConfig = {
+    entry: {
+        index: [
+            'webpack-hot-middleware/client',
+            path.resolve(config.srcDir, './index.js')
+        ]
     },
-})
-module.exports = merge(baseConfig,{
-    mode: 'development',
-    entry:autoWebPlugin.entry({}),
+    output: {
+        path: '/',
+    },
     plugins: [
-        autoWebPlugin,
+        DefinePlugin,
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(config.srcDir, './index.html')
+        })
     ]
-})
+}
+module.exports = function (app) {
+    let webpackconfig = merge(baseConfig, devConfig); 
+    console.log(webpackconfig);
 
+    var compiler = webpack(webpackconfig);
+    
+    app.use(devMiddleWare(compiler, {
+        publicPath: '/',
+        stats: {
+            colors: true,
+            chunks: false
+        }
+    }));
+    app.use(hotMiddleWare(compiler));
+    return app;
+}

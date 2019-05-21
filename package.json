@@ -30,13 +30,13 @@
     "vue-template-compiler": "^2.6.10",
     "web-webpack-plugin": "^4.6.2",
     "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.3.1"
+    "webpack-dev-middleware": "^3.7.0",
+    "webpack-dev-server": "^3.3.1",
+    "webpack-hot-middleware": "^2.25.0"
   },
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --open",
-    "clear": "rm -rf ./public/dist && mkdir ./public/dist",
-    "build": "NODE_ENV=production webpack -p --progress --config ./script/webpack.prod.js",
-    "build_bak": " npm run clear && NODE_ENV=production webpack -p --progress --config ./script/webpack.prod.js"
+    "dev": "node ./script/dev.js",
+    "build": "webpack -p --progress --config ./script/webpack.prod.js"
   },
   "author": "",
   "license": "ISC"

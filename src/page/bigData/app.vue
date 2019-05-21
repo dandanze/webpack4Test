@@ -7,10 +7,11 @@
 export default {
     data() {
         return {
-            title:'bigData page',
+            title:'bigData page1111',
         };
     },
     mounted() { 
+        console.log(process.env.NODE_ENV);
     },
 }
 </script>

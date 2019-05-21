@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 import Website from './page/website/app.vue';
 import BigData from './page/bigData/app.vue';
 const router = new VueRouter({
-    mode: 'history',
+    //mode: 'history',
     routes:[
         {
             path:'*',

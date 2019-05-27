@@ -12,6 +12,7 @@ const baseConfig = require('./webpack.base');
 const devConfig = {
     mode:'development',
     entry: {
+        vendor:['vue','vue-router'],
         index: [
             'webpack-hot-middleware/client',
             path.resolve(config.srcDir, './index.js')
@@ -26,9 +27,10 @@ const devConfig = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(config.srcDir, './index.html')
+            template: path.resolve(config.srcDir, './index.html'),
         })
-    ]
+    ],
+    devtool:'source-map'
 }
 module.exports = function (app) {
     const webpackconfig = merge(baseConfig, devConfig); 

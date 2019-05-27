@@ -1,8 +1,8 @@
-let express = require('express');
-let app = express()
+const express = require('express');
+const app = express()
 
  
-let webpackconfig = require('./webpack.dev.js');
+const webpackconfig = require('./webpack.dev.js');
 webpackconfig(app)
 
 // app.use(express.static('./dist'));

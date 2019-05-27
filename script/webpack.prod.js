@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const config = require('../config/index');
 const baseConfig = require('./webpack.base');
 const CleanWebpackPlugin = require('clean-webpack-plugin'); 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { AutoWebPlugin } = require('web-webpack-plugin');
 
 const pagesDir = path.join(config.srcDir,'./page');
@@ -18,17 +19,19 @@ const DefinePlugin = new webpack.DefinePlugin({
 const autoWebPlugin = new AutoWebPlugin(pagesDir,{
     template,
     postEntrys:[],
+    requires: ['vendor'],
     // 提取出所有页面公共的代码
-    commonsChunk: {
-        name: 'common',// 提取出公共代码 Chunk 的名称
-    },
+    // commonsChunk: {
+    //     name: 'common',// 提取出公共代码 Chunk 的名称
+    // },
 })
 module.exports = merge(baseConfig,{
     mode: 'development',
     entry:autoWebPlugin.entry({}),
     output:{
         path:config.distDir,
-        filename:'[name]/bundle[chunkHash].js'
+        filename:'[name]/bundle[chunkHash].js',
+        //publicPath:'//staticTest/js/'
     },
     module:{
         rules:[
@@ -41,6 +44,17 @@ module.exports = merge(baseConfig,{
                 ]
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    name: "vendor",
+                    chunks: "all",
+                    minChunks: 2
+                }
+            }
+        }
     },
     plugins: [
         new CleanWebpackPlugin(),
